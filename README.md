@@ -1,8 +1,8 @@
 ---
 title: Analytical Finance Chatbot
 emoji: 💹
-colorFrom: black
-colorTo: gray
+colorFrom: indigo
+colorTo: purple
 sdk: docker
 pinned: false
 license: mit
