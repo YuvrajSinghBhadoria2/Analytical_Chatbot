@@ -1,0 +1,60 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --font-sans: 'Inter', sans-serif;
+}
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 255, 255, 255;
+  --background-end-rgb: 255, 255, 255;
+
+  --sidebar-bg: #000000;
+  --sidebar-fg: #ffffff;
+  --sidebar-hover: #202123;
+
+  --user-msg-bg: #ffffff;
+  --ai-msg-bg: #f7f7f8;
+  --border-color: #e5e5e5;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 52, 53, 65;
+    --background-end-rgb: 52, 53, 65;
+
+    --sidebar-bg: #202123;
+    --sidebar-fg: #ececf1;
+    --sidebar-hover: #2a2b32;
+
+    --user-msg-bg: #343541;
+    --ai-msg-bg: #444654;
+    --border-color: #2a2b32;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-start-rgb));
+  font-family: var(--font-sans);
+}
+
+/* Custom Scrollbar */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
