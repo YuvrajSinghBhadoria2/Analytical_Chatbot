@@ -12,14 +12,16 @@ RUN npm ci
 COPY frontend-next/ ./
 RUN npm run build
 
-# Stage 2: Backend + Serve Frontend
+# Stage 2: Python Backend with Static Frontend
 FROM python:3.10-slim
 
 WORKDIR /app
 
-# Install system dependencies
+# Install Node.js for serving frontend
 RUN apt-get update && apt-get install -y \
     curl \
+    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy backend files
@@ -33,12 +35,15 @@ COPY --from=frontend-builder /app/frontend/.next ./frontend/.next
 COPY --from=frontend-builder /app/frontend/public ./frontend/public
 COPY --from=frontend-builder /app/frontend/package*.json ./frontend/
 COPY --from=frontend-builder /app/frontend/node_modules ./frontend/node_modules
+COPY --from=frontend-builder /app/frontend/next.config.mjs ./frontend/
+COPY --from=frontend-builder /app/frontend/src ./frontend/src
 
 # Create startup script
 RUN echo '#!/bin/bash\n\
     cd /app/backend && uvicorn main:app --host 0.0.0.0 --port 8000 &\n\
-    cd /app/frontend && npm start -- -p 7860\n\
-    wait' > /app/start.sh && chmod +x /app/start.sh
+    cd /app/frontend && npm start -- -p 7860 &\n\
+    wait -n\n\
+    exit $?' > /app/start.sh && chmod +x /app/start.sh
 
 # Expose port
 EXPOSE 7860
