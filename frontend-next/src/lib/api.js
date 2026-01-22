@@ -1,6 +1,6 @@
 // Basic API client for the analytical backend
 const API_BASE_URL = typeof window !== 'undefined' && window.location.hostname !== 'localhost'
-    ? `${window.location.protocol}//${window.location.hostname}:8000`
+    ? '/api'  // Use nginx proxy in production
     : 'http://localhost:8000';
 
 export const api = {
